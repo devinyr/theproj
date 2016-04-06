@@ -1,0 +1,44 @@
+<a href="{% url 'accounts-logout' %}"> Logout </a>
+
+<h1> Welcome {{ user.alias }}!</h1>
+<br>
+ID:
+{{ user.id }}
+<br>
+First Name:
+{{ user.name }}
+<br>
+Email:
+{{ user.email }}
+
+<br>
+{{ count }} people poked you!
+<br>
+<ol>
+    <h2>Pokers:</h2>
+        {% for each in others2 %}
+            <li>{{ each.usr_id.alias}}  poked you 
+            {% for i in each.pokes.all %}
+                {% if user.id == i.whom_id.id %}
+                    {{i.num_poke}}
+                {% endif %}                
+            {% endfor %}
+            times </li>
+        {% endfor %}
+</ol>
+<br>
+<ol>
+    <h2>Others1 Users:</h2>
+        {% for usr in others1 %}
+            {% if usr.id != user.id %}
+                <li>{{usr.id}} ** {{ usr.name }} ** {{ usr.alias }} ** {{ usr.email }} * <a href="{% url 'poke-someone' usr.id %}"> Poke </a> </li>
+                {% for hist in pokehst %}
+                    {% if hist.id == usr.id %}
+                        {{hist.id}} ** {{hist.tot_pokes}} <br>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+</ol>
+<br>
+
